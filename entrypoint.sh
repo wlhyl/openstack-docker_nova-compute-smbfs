@@ -99,13 +99,13 @@ CRUDINI='/usr/bin/crudini'
     $CRUDINI --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address $MY_IP
     $CRUDINI --set /etc/nova/nova.conf DEFAULT novncproxy_base_url http://${NOVNCPROXY_BASE_URL}:6080/vnc_auto.html
     
+    $CRUDINI --set /etc/nova/nova.conf DEFAULT force_config_drive True
+    
     $CRUDINI --set /etc/nova/nova.conf glance host $GLANCE_HOST
 
     $CRUDINI --set /etc/nova/nova.conf oslo_concurrency lock_path /var/lib/nova/tmp
 
     $CRUDINI --del /etc/nova/nova.conf libvirt
-
-
     $CRUDINI --set /etc/nova/nova.conf libvirt virt_type kvm
     # 禁用密码注入
     $CRUDINI --set /etc/nova/nova.conf libvirt inject_password False
