@@ -28,27 +28,3 @@ docker run -d --name nova-compute --privileged \
     -e GLANCE_ENDPOINT=10.64.0.52 \
     10.64.0.50:5000/lzh/nova-api:kilo
 ```
-
-# 直接从ceph引导vm
-编辑ceph.conf
-```bash
-#ceph daemon /var/run/ceph/ceph-client.cinder.19195.32310016.asok help
-[client]
-    rbd cache = true
-    rbd cache writethrough until flush = true
-    admin socket = /var/run/ceph/guests/$cluster-$type.$id.$pid.$cctid.asok
-    log file = /var/log/qemu/qemu-guest-$pid.log
-    rbd concurrent management ops = 20
-
-mkdir -p /var/run/ceph/guests/ /var/log/qemu/
-chown libvirt-qemu:libvirt-qemu /var/run/ceph/guests /var/log/qemu/
-```
-编辑/etc/nova/nova-compute.conf
-```bash
-images_type = rbd
-images_rbd_pool = vms
-images_rbd_ceph_conf = /etc/ceph/ceph.conf
-rbd_user = cinder
-rbd_secret_uuid = 457eb676-33da-42ec-9a8c-9293d545c337
-disk_cachemodes="network=writeback"
-```
